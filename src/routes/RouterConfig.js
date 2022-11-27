@@ -13,8 +13,8 @@ export const RouterConfig = () => {
           <Routes>
             {/*//* Public Routes */}
             <Route exact path={"/"} element={<Home />} />
-            <Route exact path={"/users"} element={<Users />} />
             <Route path={"/bookmarks"} element={<Bookmarks />} />
+            <Route exact path={"/users"} element={<Users />} />
 
             <Route path="*" exact={true} element={<NotFound />} />
           </Routes>

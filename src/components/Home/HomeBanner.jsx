@@ -25,7 +25,7 @@ import { FaFile } from 'react-icons/fa';
         rounded={'lg'}>
         <Flex justifyContent={'space-between'}>
           <Box pl={{ base: 2, md: 4 }}>
-            <StatLabel fontWeight={'medium'} isTruncated>
+            <StatLabel fontWeight={'medium'} >
               {title}
             </StatLabel>
             <StatNumber fontSize={'2xl'} fontWeight={'medium'}>

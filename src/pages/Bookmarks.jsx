@@ -1,9 +1,11 @@
-import React from 'react'
+import NoRepo from "components/Home/NoRepo";
+import RepoCards from "components/Repo/RepoCards";
+import React from "react";
 
 const Bookmarks = () => {
-  return (
-    <div>Bookmarks</div>
-  )
-}
+  const savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
 
-export default Bookmarks
+  return <>{savedRepos.length ? <RepoCards /> : <NoRepo />}</>;
+};
+
+export default Bookmarks;

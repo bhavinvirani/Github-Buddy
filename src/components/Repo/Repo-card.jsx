@@ -15,19 +15,53 @@ import {
   CardFooter,
   CardHeader,
 } from "@chakra-ui/react";
-import { BiGitRepoForked, BiStar } from "react-icons/bi";
+import { BiBookmark, BiGitRepoForked, BiStar } from "react-icons/bi";
 import { FiExternalLink } from "react-icons/fi";
 import { GoIssueOpened } from "react-icons/go";
 import moment from "moment";
+import { BsBookmarkFill } from "react-icons/bs";
+import { RepoState } from "context/RepoProvider";
 
-const RepoCard = ({ open_issues_url, repo }) => {
+const RepoCard = ({ open_issues_url, repo, isBookmarkPage }) => {
+  const { setBookmarkedRepos } = RepoState();
+
+  const handleBookmark = (repo) => {
+    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
+    const findRepoIndex = savedRepos.findIndex(
+      (savedRepo) => savedRepo.id === repo.id
+    );
+
+    if (findRepoIndex > -1) {
+      savedRepos.splice(findRepoIndex, 1);
+    } else {
+      savedRepos = [...savedRepos, repo];
+    }
+    localStorage.setItem("savedRepos", JSON.stringify(savedRepos));
+    setBookmarkedRepos(savedRepos);
+    console.log(savedRepos);
+  };
+
+  const isBookmarkedRepo = (id) => {
+    if (isBookmarkPage) {
+      return true;
+    }
+    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
+
+    const findRepoIndex = savedRepos.findIndex(
+      (savedRepo) => savedRepo.id === id
+    );
+
+    return findRepoIndex > -1 ? true : false;
+  };
+
   const handleLinkClick = (e, link) => {
     window.open(link);
     e.stopPropagation();
   };
   const dateFormate = (date) => {
     return moment.utc(date).format("LL");
-  }
+  };
+
   return (
     <Card
       rounded="xl"
@@ -56,12 +90,24 @@ const RepoCard = ({ open_issues_url, repo }) => {
           </Tooltip>
 
           <VStack alignItems={"end"}>
-            <Flex
-              _hover={{ color: "blue.500" }}
-              cursor="pointer"
-              onClick={(e) => handleLinkClick(e, repo.html_url)}
-            >
-              <Icon as={FiExternalLink} boxSize="1.4em" />
+            <Flex gap={1}>
+              <Flex
+                _hover={{ color: "blue.500" }}
+                cursor="pointer"
+                onClick={() => handleBookmark(repo)}
+              >
+                <Icon
+                  as={isBookmarkedRepo(repo.id) ? BsBookmarkFill : BiBookmark}
+                  boxSize="1.6em"
+                />
+              </Flex>
+              <Flex
+                _hover={{ color: "blue.500" }}
+                cursor="pointer"
+                onClick={(e) => handleLinkClick(e, repo.html_url)}
+              >
+                <Icon as={FiExternalLink} boxSize="1.6em" />
+              </Flex>
             </Flex>
 
             <HStack>
@@ -73,16 +119,14 @@ const RepoCard = ({ open_issues_url, repo }) => {
                   </Box>
                 </Flex>
               </Tooltip>
-              {repo.forks_count && (
-                <Tooltip hasArrow label="Forks" placement="bottom">
-                  <Flex alignItems="center">
-                    <Icon as={BiGitRepoForked} boxSize="1.2em" mt="1px" />
-                    <Box as="span" ml={"1px"} pt={1} fontSize="md">
-                      {repo.forks_count}
-                    </Box>
-                  </Flex>
-                </Tooltip>
-              )}
+              <Tooltip hasArrow label="Forks" placement="bottom">
+                <Flex alignItems="center">
+                  <Icon as={BiGitRepoForked} boxSize="1.2em" mt="1px" />
+                  <Box as="span" ml={"1px"} pt={1} fontSize="md">
+                    {repo.forks_count === 0 ? 0 : repo.forks_count}
+                  </Box>
+                </Flex>
+              </Tooltip>
             </HStack>
           </VStack>
         </Flex>

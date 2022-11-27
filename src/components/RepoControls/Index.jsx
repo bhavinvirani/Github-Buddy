@@ -93,6 +93,7 @@ const Controls = ({ handleSubmit }) => {
       <Flex justifyContent={"center"} mt={{ base: "4", md: "8" }}>
         <Button
           colorScheme="teal"
+          width={{md:"md",base:"xs"}}
           isLoading={isFetching}
           type="submit"
           onClick={handleSubmit}

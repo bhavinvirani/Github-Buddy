@@ -2,9 +2,15 @@ import { SimpleGrid } from "@chakra-ui/react";
 import RepoCard from "components/Repo/Repo-card";
 import { RepoState } from "context/RepoProvider";
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const RepoCards = () => {
   const { repos, selectedLabel } = RepoState();
+  const location = useLocation();
+  const isBookmarkPage = location.pathname === "/bookmarks" ? true : false;
+  const reposData = isBookmarkPage
+    ? JSON.parse(localStorage.getItem("savedRepos")) || []
+    : repos;
 
   let issuesLink = "/issues";
   const issueType =
@@ -14,10 +20,20 @@ const RepoCards = () => {
   issuesLink = issuesLink + issueType;
 
   return (
-    <SimpleGrid minChildWidth="320px" spacing={2} p={"24px"} py={"12px"}>
-      {repos.map((repo) => {
+    <SimpleGrid
+      columns={isBookmarkPage ? 3 : 4}
+      spacing={2}
+      p={"24px"}
+      py={"12px"}
+    >
+      {reposData.map((repo) => {
         return (
-          <RepoCard repo={repo} key={repo.id} open_issues_url={issuesLink} />
+          <RepoCard
+            isBookmarkPage={isBookmarkPage}
+            repo={repo}
+            key={repo.id}
+            open_issues_url={issuesLink}
+          />
         );
       })}
     </SimpleGrid>

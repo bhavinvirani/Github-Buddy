@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Box, FormControl, Select } from "@chakra-ui/react";
 import React from "react";
 
 const Selector = ({ data, handleChange, lable, placeholder }) => {

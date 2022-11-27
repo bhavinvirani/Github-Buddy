@@ -1,4 +1,3 @@
-import { Flex } from "@chakra-ui/react";
 import Controls from "components/RepoControls/Index";
 import HomeBanner from "components/Home/HomeBanner";
 import NoRepo from "components/Home/NoRepo";
@@ -34,6 +33,7 @@ const Home = () => {
       if (data) {
         progress.current.complete();
         setIsFetching(false);
+        // saveUserPreference(stars, selectedLanguage, selectedLabel);
       }
     } catch (error) {
       progress.current.complete();
@@ -44,13 +44,7 @@ const Home = () => {
     <>
       <HomeBanner />
       <Controls handleSubmit={handleSubmit} />
-      <Flex
-        direction={"column"}
-        alignContent={"center"}
-        justifyItems={"center"}
-      >
-        {repos.length ? <RepoCards /> : <NoRepo />}
-      </Flex>
+      {repos.length ? <RepoCards /> : <NoRepo />}
     </>
   );
 };
