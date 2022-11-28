@@ -36,7 +36,7 @@ export default function Nav() {
             <Stack direction={"row"}>
               <NavLink to={"/"}>Home</NavLink>
               <NavLink to={"/bookmarks"}>Bookmarks</NavLink>
-              <NavLink to={"/users"}>Users</NavLink>
+              {/* <NavLink to={"/users"}>Users</NavLink> */}
             </Stack>
           </Flex>
 

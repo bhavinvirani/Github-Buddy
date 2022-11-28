@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const fetchRepos = async (
   selectedLanguage,
@@ -7,9 +7,9 @@ export const fetchRepos = async (
   selectedLabel
 ) => {
   try {
-    const apiUrl = 'https://api.github.com/search/repositories';
+    const apiUrl = "https://api.github.com/search/repositories";
 
-    let searchUrl = `${apiUrl}?q=${searchText.replace(/ /g, '+')}+in:readme`;
+    let searchUrl = `${apiUrl}?q=${searchText.replace(/ /g, "+")}+in:readme`;
 
     if (selectedLanguage) {
       searchUrl += `+language:${selectedLanguage.toLowerCase()}`;
@@ -21,25 +21,21 @@ export const fetchRepos = async (
 
     searchUrl += `+stars:0..${stars}&sort=stars&order=desc&per_page=10`;
 
-    console.log('URL => ', searchUrl);
-
-    const { data } = await  axios.get(searchUrl);
+    const { data } = await axios.get(searchUrl);
     if (data) {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
 export const saveUserPreference = (stars, language, selectedLabel) => {
   localStorage.setItem(
-    'user-pref',
+    "user-pref",
     JSON.stringify({ stars, language, selectedLabel })
   );
 };
 
 export const getUserPreference = () =>
-  JSON.parse(localStorage.getItem('user-pref'));
-
-  
+  JSON.parse(localStorage.getItem("user-pref"));

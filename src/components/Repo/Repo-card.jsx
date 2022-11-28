@@ -24,7 +24,7 @@ import { BsBookmarkFill } from "react-icons/bs";
 const RepoCard = ({
   open_issues_url,
   repo,
-  isBookmarkPage,
+  // isBookmarkPage,
   handleBookmark,
   isBookmarkedRepo,
 }) => {
