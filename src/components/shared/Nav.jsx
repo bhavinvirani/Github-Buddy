@@ -1,21 +1,27 @@
 import { Box, Flex, Link, useColorModeValue, Stack } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "components/miscellaneous/ColorModeSwitcher";
 import { GithubButton } from "components/miscellaneous/GithubButton";
+import { useLocation } from "react-router-dom";
 
-const NavLink = ({ children, to }) => (
-  <Link
-    href={to}
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-  >
-    {children}
-  </Link>
-);
+const NavLink = ({ children, to }) => {
+  const location = useLocation();
+
+  return (
+    <Link
+      href={to}
+      px={2}
+      py={1}
+      rounded={"md"}
+      bg={location.pathname === to && "gray.700"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+    >
+      {children}
+    </Link>
+  );
+};
 
 export default function Nav() {
   return (

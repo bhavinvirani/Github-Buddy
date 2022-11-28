@@ -4,7 +4,7 @@ const Repo = createContext();
 
 const RepoContext = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
-  const [stars, setStars] = useState(15);
+  const [stars, setStars] = useState(25);
   const [searchText, setSearchText] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedLabel, setSeleectedLabel] = useState("good-first-issues");
@@ -13,15 +13,6 @@ const RepoContext = ({ children }) => {
   const [bookmarkedRepos, setBookmarkedRepos] = useState([]);
   const progress = useRef(null);
 
-  // const [alert, setAlert] = useState({
-  //   open: false,
-  //   message: "",
-  //   // 'error'
-  //   // 'info'
-  //   // 'success'
-  //   // 'warning'
-  //   type: "success",
-  // });
 
   return (
     <Repo.Provider

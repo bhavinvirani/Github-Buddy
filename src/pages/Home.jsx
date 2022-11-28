@@ -1,10 +1,11 @@
 import Controls from "components/RepoControls/Index";
 import HomeBanner from "components/Home/HomeBanner";
-import NoRepo from "components/Home/NoRepo";
+import NoRepo from "components/miscellaneous/NoRepo";
 import RepoCards from "components/Repo/RepoCards";
 import React from "react";
 import { fetchRepos } from "services";
 import { RepoState } from "context/RepoProvider";
+import { saveUserPreference } from "services/Github/repoSetvices";
 
 const Home = () => {
   const {
@@ -33,7 +34,7 @@ const Home = () => {
       if (data) {
         progress.current.complete();
         setIsFetching(false);
-        // saveUserPreference(stars, selectedLanguage, selectedLabel);
+        saveUserPreference(stars, selectedLanguage, selectedLabel);
       }
     } catch (error) {
       progress.current.complete();
@@ -44,7 +45,16 @@ const Home = () => {
     <>
       <HomeBanner />
       <Controls handleSubmit={handleSubmit} />
-      {repos.length ? <RepoCards /> : <NoRepo />}
+      {repos.length ? (
+        <RepoCards />
+      ) : (
+        <NoRepo
+          text={"No Repositories"}
+          description={
+            "Repositories can be fetched based on language, label and no of Stars."
+          }
+        />
+      )}
     </>
   );
 };

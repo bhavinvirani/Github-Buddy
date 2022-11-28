@@ -20,40 +20,14 @@ import { FiExternalLink } from "react-icons/fi";
 import { GoIssueOpened } from "react-icons/go";
 import moment from "moment";
 import { BsBookmarkFill } from "react-icons/bs";
-import { RepoState } from "context/RepoProvider";
 
-const RepoCard = ({ open_issues_url, repo, isBookmarkPage }) => {
-  const { setBookmarkedRepos } = RepoState();
-
-  const handleBookmark = (repo) => {
-    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
-    const findRepoIndex = savedRepos.findIndex(
-      (savedRepo) => savedRepo.id === repo.id
-    );
-
-    if (findRepoIndex > -1) {
-      savedRepos.splice(findRepoIndex, 1);
-    } else {
-      savedRepos = [...savedRepos, repo];
-    }
-    localStorage.setItem("savedRepos", JSON.stringify(savedRepos));
-    setBookmarkedRepos(savedRepos);
-    console.log(savedRepos);
-  };
-
-  const isBookmarkedRepo = (id) => {
-    if (isBookmarkPage) {
-      return true;
-    }
-    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
-
-    const findRepoIndex = savedRepos.findIndex(
-      (savedRepo) => savedRepo.id === id
-    );
-
-    return findRepoIndex > -1 ? true : false;
-  };
-
+const RepoCard = ({
+  open_issues_url,
+  repo,
+  isBookmarkPage,
+  handleBookmark,
+  isBookmarkedRepo,
+}) => {
   const handleLinkClick = (e, link) => {
     window.open(link);
     e.stopPropagation();

@@ -3,21 +3,46 @@ import RepoCard from "components/Repo/Repo-card";
 import { RepoState } from "context/RepoProvider";
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { getIssyesLink } from "utils/url";
 
-const RepoCards = () => {
-  const { repos, selectedLabel } = RepoState();
+const RepoCards = ({ bookmarkResult }) => {
   const location = useLocation();
+  const { repos, selectedLabel, setBookmarkedRepos } = RepoState();
+
   const isBookmarkPage = location.pathname === "/bookmarks" ? true : false;
   const reposData = isBookmarkPage
-    ? JSON.parse(localStorage.getItem("savedRepos")) || []
+    ? bookmarkResult || []
     : repos;
 
-  let issuesLink = "/issues";
-  const issueType =
-    selectedLabel.value === "good-first-issues"
-      ? '?q=is%3Aissue+is%3Aopen+label%3A"good+first+issue"'
-      : '?q=is%3Aissue+is%3Aopen+label%3A"help+wanted"';
-  issuesLink = issuesLink + issueType;
+  let issuesLink = getIssyesLink(selectedLabel.value);
+
+  const handleBookmark = (repo) => {
+    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
+    const findRepoIndex = savedRepos.findIndex(
+      (savedRepo) => savedRepo.id === repo.id
+    );
+
+    if (findRepoIndex > -1) {
+      savedRepos.splice(findRepoIndex, 1);
+    } else {
+      savedRepos = [...savedRepos, repo];
+    }
+    localStorage.setItem("savedRepos", JSON.stringify(savedRepos));
+    setBookmarkedRepos(savedRepos);
+  };
+
+  const isBookmarkedRepo = (id) => {
+    if (isBookmarkPage) {
+      return true;
+    }
+    let savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
+
+    const findRepoIndex = savedRepos.findIndex(
+      (savedRepo) => savedRepo.id === id
+    );
+
+    return findRepoIndex > -1 ? true : false;
+  };
 
   return (
     <SimpleGrid
@@ -30,6 +55,8 @@ const RepoCards = () => {
         return (
           <RepoCard
             isBookmarkPage={isBookmarkPage}
+            handleBookmark={handleBookmark}
+            isBookmarkedRepo={isBookmarkedRepo}
             repo={repo}
             key={repo.id}
             open_issues_url={issuesLink}
