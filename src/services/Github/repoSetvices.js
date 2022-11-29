@@ -19,7 +19,7 @@ export const fetchRepos = async (
       searchUrl += `+${selectedLabel}:>0`;
     }
 
-    searchUrl += `+stars:0..${stars}&sort=stars&order=desc&per_page=10`;
+    searchUrl += `+stars:0..${stars}&sort=stars&order=desc&per_page=60`;
 
     const { data } = await axios.get(searchUrl);
     if (data) {

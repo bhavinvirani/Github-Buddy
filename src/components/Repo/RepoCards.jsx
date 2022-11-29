@@ -10,9 +10,20 @@ const RepoCards = ({ bookmarkResult }) => {
   const { repos, selectedLabel, setBookmarkedRepos } = RepoState();
 
   const isBookmarkPage = location.pathname === "/bookmarks" ? true : false;
+
+//! try to both variables(reposData) one by one
+//* files to lookout ==>>  pages/Bookmarks.jsx, components/repo/RepoCards 
+//* and context if you need
+
+//TODO: search working
+  // const reposData = isBookmarkPage ? bookmarkResult || [] : repos;
+
+//TODO: bookmark toggle working
   const reposData = isBookmarkPage
-    ? bookmarkResult || []
+    ? JSON.parse(localStorage.getItem("savedRepos")) || []
     : repos;
+
+
 
   let issuesLink = getIssyesLink(selectedLabel.value);
 
