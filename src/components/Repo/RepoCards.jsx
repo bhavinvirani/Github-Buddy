@@ -4,9 +4,16 @@ import { RepoState } from "context/RepoProvider";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { getIssyesLink } from "utils/url";
+import {useEffect} from 'react';
 
-const RepoCards = ({ bookmarkResult }) => {
+const RepoCards = ({ bookmarkResult, query }) => {
   const location = useLocation();
+
+  useEffect(() => {
+    console.log("Bookmarks changed")
+    
+  }, [bookmarkResult])
+
   const { repos, selectedLabel, setBookmarkedRepos } = RepoState();
 
   const isBookmarkPage = location.pathname === "/bookmarks" ? true : false;
@@ -17,12 +24,17 @@ const RepoCards = ({ bookmarkResult }) => {
 
 //TODO: search working
   // const reposData = isBookmarkPage ? bookmarkResult || [] : repos;
-
-//TODO: bookmark toggle working
-  const reposData = isBookmarkPage
-    ? JSON.parse(localStorage.getItem("savedRepos")) || []
-    : repos;
-
+ 
+  
+  //TODO: bookmark toggle working
+  let reposData = isBookmarkPage
+  ? JSON.parse(localStorage.getItem("savedRepos")) || bookmarkResult
+  : repos;
+  
+  // Added by Advait for filtered repos if query is passed
+  if(query){
+    reposData = isBookmarkPage ? bookmarkResult || [] : repos;
+  }
 
 
   let issuesLink = getIssyesLink(selectedLabel.value);
