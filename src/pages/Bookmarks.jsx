@@ -7,6 +7,7 @@ const Bookmarks = () => {
   const savedRepos = JSON.parse(localStorage.getItem("savedRepos")) || [];
   const [bookmarkSearch, setBookmarkSearch] = useState("");
 
+
   const handleSearch = (repo) => {
     return (
       repo.name.includes(bookmarkSearch) ||
@@ -37,7 +38,7 @@ const Bookmarks = () => {
           description={"Explore Repositories and make them bookmark to save."}
         />
       ) : (
-        <RepoCards  bookmarkResult={finalResult} />
+        <RepoCards  bookmarkResult={finalResult} query={bookmarkSearch} />
       )}
     </>
   );
